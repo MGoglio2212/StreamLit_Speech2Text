@@ -1,5 +1,5 @@
-import os 
-os.chdir(r"C:\Users\Gogliom\OneDrive - Jakala SpA\Proposta_SKy\Audio Analysis")
+#import os 
+#os.chdir(r"C:\Users\Gogliom\OneDrive - Jakala SpA\Proposta_SKy\Audio Analysis")
 
 
 # import library

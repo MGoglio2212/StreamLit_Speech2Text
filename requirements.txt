@@ -1,0 +1,4 @@
+matplotlib==3.4.1
+SpeechRecognition==3.8.1
+streamlit==0.80.0
+Wave==0.0.2

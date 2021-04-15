@@ -40,7 +40,7 @@ st.markdown("""
 
 # side bar
 st.sidebar.image(img_logo, width = 180)
-example = st.sidebar.selectbox("Select a file ", ['None','Example 1', 'Example 2'])
+example = st.sidebar.selectbox("Select a file ", ['Example 1'])
 
 # analyze the file
 if example == "Example 1":

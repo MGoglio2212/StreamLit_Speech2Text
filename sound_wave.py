@@ -46,19 +46,19 @@ example = st.sidebar.selectbox("Select a file ", ['None','Example 1', 'Example 2
 if example == "Example 1":
     filename = filename_1
 
-spf = wave.open(filename, "r")
-signal = spf.readframes(-1)
-signal = np.fromstring(signal, "Int16")
-fs = spf.getframerate()
-time = np.linspace(0, len(signal) / fs, num=len(signal))
-df = pd.DataFrame({'time':time, 'signal':signal})
+    spf = wave.open(filename, "r")
+    signal = spf.readframes(-1)
+    signal = np.fromstring(signal, "Int16")
+    fs = spf.getframerate()
+    time = np.linspace(0, len(signal) / fs, num=len(signal))
+    df = pd.DataFrame({'time':time, 'signal':signal})
 
-# text from audio
-r = sr.Recognizer()
-with sr.AudioFile(filename) as source:
-    audio_data = r.record(source)
-    text_audio = r.recognize_google(audio_data)
-    wordList = re.sub("[^\w]", " ",  text_audio).split()
+    # text from audio
+    r = sr.Recognizer()
+    with sr.AudioFile(filename) as source:
+        audio_data = r.record(source)
+        text_audio = r.recognize_google(audio_data)
+        wordList = re.sub("[^\w]", " ",  text_audio).split()
 
 ######################### INTRO #########################
 with header:

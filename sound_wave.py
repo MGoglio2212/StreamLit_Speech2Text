@@ -1,5 +1,5 @@
-#import os 
-#os.chdir(r"C:\Users\Gogliom\OneDrive - Jakala SpA\Proposta_SKy\Audio Analysis")
+import os 
+os.chdir(r"C:\Users\Gogliom\OneDrive - Jakala SpA\Proposta_SKy\Audio Analysis")
 
 
 # import library
@@ -24,9 +24,9 @@ white_img = Image.open('white.PNG')
 
 ######################### STREAMLIT #########################
 header = st.beta_container()
+play = st.beta_container()
 sound = st.beta_container()
 kpi = st.beta_container()
-play = st.beta_container()
 
 st.markdown("""
 <style>
@@ -50,10 +50,14 @@ if example == "Example 1":
     signal = spf.readframes(-1)
     signal = np.fromstring(signal, "Int16")
     fs = spf.getframerate()
-    time = np.linspace(0, len(signal) / fs, num=len(signal))
+    fr = spf.getnframes()
+    #time = np.linspace(0, len(signal) / fs, num=len(signal))
+    #time = np.linspace(0,fr / fs)
+    #signal = signal[:len(time)]
+    time = np.linspace(0, fr / fs, num = len(signal))
     df = pd.DataFrame({'time':time, 'signal':signal})
 
-    # text from audio
+# text from audio
     r = sr.Recognizer()
     with sr.AudioFile(filename) as source:
         audio_data = r.record(source)
@@ -63,11 +67,28 @@ if example == "Example 1":
 ######################### INTRO #########################
 with header:
     st.markdown('<div style="text-align:center"><span class="JTALK_1">J</span><span class="JTALK_2">AKALA - Customer Operation</span></div>', unsafe_allow_html=True)
+    st.markdown('<div style="text-align:center"><p class="big-font">Process Mining of an IVR</p></div>', unsafe_allow_html=True)  
     st.image(white_img, width = 25)
+
+
+
+######################## PLAY AUDIO #########################
+with play:
+    st.markdown('<div style="text-align:center"><p class="big-font">Play the Audio</p></div>', unsafe_allow_html=True)  
+    audio_file = open(filename, 'rb')
+    audio_bytes = audio_file.read()
+    st.audio(audio_bytes)
+
+    st.image(white_img, width = 25)
+    but1, but2, but3, but4, but5 = st.beta_columns(5)
+    if (but3.button("SPEECH")):
+        st.image(white_img, width = 25)
+        st.write(text_audio)
+
+
 
 ######################### AUDIO #########################
 with sound:
-    st.markdown('<div style="text-align:center"><p class="big-font">Process Mining of an IVR</p></div>', unsafe_allow_html=True)  
     st.image(white_img, width = 25)
 
     but1, but2, but3, but4, but5 = st.beta_columns(5)
@@ -96,7 +117,7 @@ with sound:
         # First column
         kpi1_col.markdown('<div style="text-align:left"><p class="medium-font">General Overview</p></div>', unsafe_allow_html=True)
         kpi1_col.markdown('<div style="text-align:left"><p class="small-font">Total length:</p></div>', unsafe_allow_html=True)
-        kpi1_col.write(time[-1])
+        kpi1_col.write(round(time[-1],1))
         kpi1_col.markdown('<div style="text-align:left"><p class="small-font">Number of words:</p></div>', unsafe_allow_html=True)
         kpi1_col.write(len(wordList))
         kpi1_col.markdown('<div style="text-align:left"><p class="small-font">Number of sentences:</p></div>', unsafe_allow_html=True)
@@ -104,26 +125,14 @@ with sound:
 
         # Second column
         kpi2_col.markdown('<div style="text-align:left"><p class="medium-font">Conversation details:</p></div>', unsafe_allow_html=True)
-        kpi2_col.markdown('<div style="text-align:left"><p class="small-font">Welcome speech:</p></div>', unsafe_allow_html=True)
-        kpi2_col.write('10 sec')
+        kpi2_col.markdown('<div style="text-align:left"><p class="small-font">Greeting:</p></div>', unsafe_allow_html=True)
+        kpi2_col.write('2 sec')
         kpi2_col.markdown('<div style="text-align:left"><p class="small-font">Commercial speech:</p></div>', unsafe_allow_html=True)
-        kpi2_col.write('20 sec')
+        kpi2_col.write('6 sec')
         kpi2_col.markdown('<div style="text-align:left"><p class="small-font">Option list:</p></div>', unsafe_allow_html=True)
-        kpi2_col.write('24 sec')
-        kpi2_col.markdown('<div style="text-align:left"><p class="small-font">Repeating answer:</p></div>', unsafe_allow_html=True)
-        kpi2_col.write('13 sec')
+        kpi2_col.write('16 sec')
+        #kpi2_col.markdown('<div style="text-align:left"><p class="small-font">Repeating answer:</p></div>', unsafe_allow_html=True)
+        #kpi2_col.write('4 sec')
 
     st.image(white_img, width = 25)
 
-######################## PLAY AUDIO #########################
-with play:
-    st.markdown('<div style="text-align:center"><p class="big-font">Play the Audio</p></div>', unsafe_allow_html=True)  
-    audio_file = open(filename, 'rb')
-    audio_bytes = audio_file.read()
-    st.audio(audio_bytes)
-
-    st.image(white_img, width = 25)
-    but1, but2, but3, but4, but5 = st.beta_columns(5)
-    if (but3.button("SPEECH")):
-        st.image(white_img, width = 25)
-        st.write(text_audio)
